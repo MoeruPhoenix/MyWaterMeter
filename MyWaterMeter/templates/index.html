@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html style="margin: -2px;">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>MyWatermeter</title>
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="../static/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Archivo+Black">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bitter:400,700">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+    <link rel="stylesheet" href="../static/css/Article-Dual-Column.css">
+    <link rel="stylesheet" href="../static/css/Contact-Form-Clean.css">
+    <link rel="stylesheet" href="../static/css/Features-Blue.css">
+    <link rel="stylesheet" href="../static/css/Footer-Basic.css">
+    <link rel="stylesheet" href="../static/css/Footer-Dark.css">
+    <link rel="stylesheet" href="../static/css/Header-Blue.css">
+    <link rel="stylesheet" href="../static/css/Header-Dark.css">
+    <link rel="stylesheet" href="../static/css/Map-Clean.css">
+    <link rel="stylesheet" href="../static/css/Navigation-with-Search.css">
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <link rel="stylesheet" href="../static/css/Team-Boxed.css">
+    <link rel="stylesheet" href="../static/css/Team-Clean.css">
+    <link rel="stylesheet" href="style.css">
+    <script data-brackets-id='9774' type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+    <script data-brackets-id='9775' type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
+    <link rel="stylesheet" href="remtable.css">
+</head>
+
+<body>
+    <div>
+        <div class="header-blue" style="height: 134px;">
+            <nav class="navbar navbar-dark navbar-expand-md navigation-clean-search">
+                <div class="container"><a class="navbar-brand" href="#" style="font-size: 50px;">MyWaterMeter</a>
+                    <nav class="navbar navbar-light navbar-expand-md navigation-clean-search" style="padding: 10px;">
+                        <div class="container"><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                            <div class="collapse navbar-collapse" id="navcol-1">
+                                <ul class="nav navbar-nav">
+                                    <li class="nav-item" role="presentation"><a class="nav-link" href="index.html" style="color: #f9efef;">Home</a></li>
+                                    <li class="nav-item" role="presentation"><a class="nav-link" href="AboutUs.html" style="color: rgb(239,241,242);">About Us</a></li>
+                                    <li class="nav-item" role="presentation"><a class="nav-link" href="ContactUs.html" style="color: rgb(238,241,244);">Contact Us</a></li>
+                                    <li class="nav-item" role="presentation"><a class="nav-link" href="FAQ.html" style="color: rgb(234,240,245);">FAQ</a></li>
+                                    <li class="nav-item" role="presentation"><a class="nav-link" href="SiteMap.html" style="color: rgb(225,229,232);">Site Map</a></li>
+                                </ul>
+                                <form class="form-inline mr-auto" target="_self">
+                                    <div class="form-group"><label for="search-field"></label></div>
+                                </form>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="features-blue">
+        <div class="container">
+            <div class="intro">
+                <h2 class="text-center">Dashboard</h2>
+            </div>
+            <div class="row features">
+                <div class="col-sm-6 col-md-4 item">
+                    <h3 class="name">Reminder</h3>
+                    <div class="main-container">
+                        <div class="form-container">
+                           
+                            <div class="form">
+                                <input type="text" id="descrp" placeholder="Description" required />
+                                <input type="number" id="wlevel" placeholder="Water Level" required />
+                                <div class="move-right"><input type="button" value="Save" id="btnSave" /></div>
+
+                            </div>
+                        </div>
+                       <div class="table-container">
+                            <table id="table1">
+                                <thead id="table-head">
+                                    <tr>
+                                        <th>S.N.</th>
+                                        <th>Description</th>
+                                        <th>Water level</th>
+                                        <th>Edit</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 item">
+                    <h3 class="name">Water Level - {{ result }} Lt</h3>
+                    <div id="chartdiv"></div>
+                    <button class= "btn btn-primary" onClick="window.location.href=window.location.href">Refresh</button>
+                    <a>Last Reading @ - {{ timeresult }}</a>
+                </div>
+                <div class="col-sm-6 col-md-4 item">
+                    <h3 class="name">pH Level</h3>
+                    <div id="chart-container">FusionCharts XT will load here!</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer-basic">
+        <footer>
+            <div class="social"><a href="#"><i class="icon ion-social-instagram"></i></a><a href="#"><i class="icon ion-social-snapchat"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a><a href="#"><i class="icon ion-social-facebook"></i></a></div>
+            <ul class="list-inline">
+                <li class="list-inline-item">Home</li>
+                <li class="list-inline-item"><a href="AboutUs.html">About Us</a></li>
+                <li class="list-inline-item"><a href="ContactUs.html">Contact Us</a></li>
+                <li class="list-inline-item"><a href="FAQ.html">FAQ</a></li>
+                <li class="list-inline-item"><a href="SiteMap.html">Site Map</a></li>
+            </ul>
+            <p class="copyright">PhoenixTec © 2021</p>
+        </footer>
+    </div>
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+    <!--<script src="../static/js/watermeter.js"></script> -->
+    <script src="../static/js/phmeter.js"></script>
+    <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+    <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
+    <script src="rembtn.js" charset="utf-8"></script>
+    <script src="smoothscroll.js" charset="utf-8"></script>
+    <script src="remtable.js" charset="utf-8"></script>
+    
+    <script>
+        var reading = {{ result }};
+        var vone = (reading/25000)*100;
+        var vtwo = 100 - vone;
+        am4core.ready(function () {
+
+        // Themes begin
+        am4core.useTheme(am4themes_animated);
+        // Themes end
+
+        // Create chart instance
+        var chart = am4core.create("chartdiv", am4charts.XYChart3D);
+
+        //chart.titles.create().text = "Crude oil reserves";
+
+        // Add data
+        chart.data = [{
+            "category": "Water Tank",
+            "value1": vone,
+            "value2": vtwo
+            }];
+
+        // Create axes
+        var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+        categoryAxis.dataFields.category = "category";
+        categoryAxis.renderer.grid.template.location = 0;
+        categoryAxis.renderer.grid.template.strokeOpacity = 0;
+
+        var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+        valueAxis.renderer.grid.template.strokeOpacity = 0;
+        valueAxis.min = -10;
+        valueAxis.max = 110;
+        valueAxis.strictMinMax = true;
+        valueAxis.renderer.baseGrid.disabled = true;
+        valueAxis.renderer.labels.template.adapter.add("text", function (text) {
+            if ((text > 100) || (text < 0)) {
+                return "";
+            } else {
+                return text + "%";
+            }
+        })
+
+        // Create series
+        var series1 = chart.series.push(new am4charts.ConeSeries());
+        series1.dataFields.valueY = "value1";
+        series1.dataFields.categoryX = "category";
+        series1.columns.template.width = am4core.percent(80);
+        series1.columns.template.fillOpacity = 0.9;
+        series1.columns.template.strokeOpacity = 1;
+        series1.columns.template.strokeWidth = 2;
+
+        var series2 = chart.series.push(new am4charts.ConeSeries());
+        series2.dataFields.valueY = "value2";
+        series2.dataFields.categoryX = "category";
+        series2.stacked = true;
+        series2.columns.template.width = am4core.percent(80);
+        series2.columns.template.fill = am4core.color("#000");
+        series2.columns.template.fillOpacity = 0.1;
+        series2.columns.template.stroke = am4core.color("#000");
+        series2.columns.template.strokeOpacity = 0.2;
+        series2.columns.template.strokeWidth = 2;
+
+        }); // end am4core.ready()
+    </script>
+</body>
+
+</html>
