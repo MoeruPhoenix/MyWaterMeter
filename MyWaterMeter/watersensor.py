@@ -2,11 +2,69 @@ from time import sleep
 import RPi.GPIO as GPIO
 import MySQLdb
 import time
+import io
+import sys
+import fcntl
+import copy
+import string
+from AtlasI2C import (
+	 AtlasI2C
+)
 
 from datetime import datetime
 from decimal import Decimal
 
 from datetime import datetime
+
+def get_devices():
+    device = AtlasI2C()
+    device_address_list = device.list_i2c_devices()
+    device_list = []
+    
+    for i in device_address_list:
+        device.set_i2c_address(i)
+        response = device.query("I")
+        moduletype = response.split(",")[0] 
+        response = device.query("name,?").split(",")[0]
+        device_list.append(AtlasI2C(address = i, moduletype = moduletype, name = response))
+    return device_list
+
+def phsensor():
+    device_list = get_devices()
+        
+    device = device_list[0]
+    reading = ""
+    x=0
+    
+    while x == 0:
+            try:
+                user_cmd = "i"
+                cmd_list = "i"
+                if(len(cmd_list) > 1):
+                    addr = cmd_list[0]
+                    
+                    # go through the devices to figure out if its available
+                    # and swith to it if it is
+                    switched = False
+                    for i in device_list:
+                        if(i.address == int(addr)):
+                            device = i
+                            switched = True
+                    if(switched):
+                        print(device.query(cmd_list[1]))
+                        
+                    else:
+                        print("No device found at address " + addr)
+                else:
+                    # if no address change, just send the command to the device
+                    reading = (device.query(user_cmd))
+            except IOError:
+                print("Query failed \n - Address may be invalid, use list command to see available addresses")
+            
+            x= x+1
+            
+    return reading
+
 
 def watersensor():
     try:
@@ -20,11 +78,7 @@ def watersensor():
 
         GPIO.output(PIN_TRIGGER, GPIO.LOW)
 
-        #print("Waiting for sensor to settle")
-
         time.sleep(2)
-
-        #print("Calculating distance")
 
         GPIO.output(PIN_TRIGGER, GPIO.HIGH)
 
@@ -40,15 +94,16 @@ def watersensor():
         pulse_duration = pulse_end_time - pulse_start_time
         distance = round(pulse_duration * 17150, 2)
         print("Distance:", distance, "cm")
-        time.sleep(5)
 
     finally:
         GPIO.cleanup()
         sensorValue = distance
-        print(sensorValue)
         
         return sensorValue
+    
 
+device_list = get_devices()
+device = device_list[0]
 
 print('Start')
 while (True):
@@ -60,14 +115,24 @@ while (True):
     myConnection = MySQLdb.connect ( host=hostname, user=username, passwd=password, db=database)
     now = datetime.now()
     date_time = now.strftime("%m/%d/%Y | %H:%M:%S")   
-    reading = str(watersensor())
+    waterReading = str(watersensor())
+    pH_Reading = str(phsensor())
+    
+    print("pH Level: " + pH_Reading + "\n")
+    
     cur = myConnection.cursor()
-    cur.execute ("INSERT INTO waterLevel (water_level, timestamp) VALUES (%s, %s)", (reading, date_time))
+    cur.execute ("INSERT INTO waterLevel (water_level, timestamp) VALUES (%s, %s)", (waterReading, date_time))
+    cur.execute ("INSERT INTO phlevel (ph_level, ph_timestamp) VALUES (%s, %s)", (pH_Reading, date_time))
     myConnection.commit ()
-    print (str(reading) + "sent to db")
+    print (str(waterReading) + " Water level sent to database")
+    print (str(pH_Reading) + " pH level sent to database")
     print("")
     print("")
     cur.close()
     myConnection.close()
     time.sleep(5)
+    
+    
+    
+
 

@@ -8,7 +8,7 @@ from datetime import datetime
 app = Flask(__name__)
 mysql = MySQL()
 mysql.init_app(app)
-
+ 
 import re
 
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
@@ -27,6 +27,14 @@ def index():
     reading = re.sub("\D", "", reading)
     #reading = Decimal(reading)
     cur.close()
+    
+    curpH = mysql.get_db().cursor()
+    curpH.execute("SELECT ph_level from phlevel ORDER BY pHID DESC LIMIT 1")
+    phreading = curpH.fetchall()
+    phreading = str(phreading)
+    phreading = phreading[3] + phreading[4]
+    phreading = re.sub("\D", "", phreading)
+    curpH.close()
      
     curTs = mysql.get_db().cursor()
     curTs.execute("SELECT timestamp FROM waterLevel ORDER BY rID DESC LIMIT 1")
@@ -43,7 +51,23 @@ def index():
     
     print(reading)
         
-    return render_template('index.html', result=reading, timeresult=time)
+    return render_template('index.html', result=reading, pHresult=phreading, timeresult=time)
+
+@app.route('/about') 
+def about():
+    return render_template('AboutUs.html') 
+
+@app.route('/contact')
+def contact():
+    return render_template('ContactUs.html')
+
+@app.route('/faq')
+def faq():
+    return render_template('FAQ.html')
+
+@app.route('/sitemap')
+def sitemap():
+    return render_template('SiteMap.html')
 
 if __name__=='__main__':
     app.run(debug=True, host='0.0.0.0') 
