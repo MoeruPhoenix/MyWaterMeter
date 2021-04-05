@@ -69,24 +69,30 @@
                     <div class="main-container">
                         <div class="form-container">
                            
-                            <div class="form">
-                                <input type="text" id="descrp" placeholder="Description" required />
-                                <input type="number" id="wlevel" placeholder="Water Level" required />
-                                <div class="move-right"><input type="button" value="Save" id="btnSave" /></div>
+                            <form class="form" action="{{ url_for('addReminder') }}" method="POST">
+                                <input type="text" name="descrp" id="descrp" placeholder="Description" required />
+                                <input type="number" name="wlevel" id="wlevel" placeholder="Water Level" required />
+                                <button type="submit" class="btn btn-success" id="btnSave">Save</button>
 
-                            </div>
+                            </form>
                         </div>
                        <div class="table-container">
                             <table id="table1">
                                 <thead id="table-head">
                                     <tr>
-                                        <th>S.N.</th>
+                                        <!--<th>S.N.</th> -->
                                         <th>Description</th>
                                         <th>Water level</th>
-                                        <th>Edit</th>
                                         <th>Delete</th>
                                     </tr>
-                                </thead>
+                                    {% for row in amm %}
+                                    <tr>
+                                        <!--<td>{{row.0}}</td>-->
+                                        <td>{{row.1}}</td>
+                                        <td>{{row.2}}</td>
+                                        <td><a href="/delete/{{ row.0 }}" class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure For Delete?');">Delete</a></td>
+                               </thead>
+                               {% endfor %}
                             </table>
                         </div>
                     </div>
@@ -127,9 +133,9 @@
     <!--<script src="../static/js/phmeter.js"></script> -->
     <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
     <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
-    <script src="rembtn.js" charset="utf-8"></script>
+   <!-- <script src="rembtn.js" charset="utf-8"></script> -->
     <script src="smoothscroll.js" charset="utf-8"></script>
-    <script src="remtable.js" charset="utf-8"></script>
+   <!-- <script src="remtable.js" charset="utf-8"></script> -->
     
     <!--Water meter-->
     <script>

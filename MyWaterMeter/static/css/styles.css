@@ -101,8 +101,7 @@ table, th, td {
 thead {
   border-bottom: 1px solid #d0d0d0;
 }
-table>tbody>tr:nth-child(odd) {
-  background-color: #f2f2f2;
+table>tbody>tr:nth-child {
 }
 td, th {
   padding: 15px 5px;
