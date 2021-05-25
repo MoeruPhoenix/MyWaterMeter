@@ -61,8 +61,9 @@ def phsensor():
             except IOError:
                 print("Query failed \n - Address may be invalid, use list command to see available addresses")
             
-            x= x+1
-            
+            x = x+1
+    inReading = float(reading) + 5.14
+    reading = str(inReading)
     return reading
 
 
@@ -92,7 +93,8 @@ def watersensor():
             pulse_end_time = time.time()
 
         pulse_duration = pulse_end_time - pulse_start_time
-        distance = round(pulse_duration * 17150, 2)
+        distance = pulse_duration * 17150
+        distance = round(distance, 2)
         print("Distance:", distance, "cm")
 
     finally:
@@ -131,8 +133,3 @@ while (True):
     cur.close()
     myConnection.close()
     time.sleep(5)
-    
-    
-    
-
-
