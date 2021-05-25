@@ -63,16 +63,31 @@
             <div class="intro">
                 <h2 class="text-center">Dashboard</h2>
             </div>
+            <!--<h3 class="text-center">Here is what's up</h3>-->
+            {%with messages = get_flashed_messages()%}
+            {%if messages%}
+            {% for message in messages %}
+            <div class="alert alert-warning alert-dismissable" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label ="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{message}}
+            </div>
+            {%endfor%}
+            {%endif%}
+            {%endwith%}
+            <br>
             <div class="row features">
                 <div class="col-sm-6 col-md-4 item">
                     <h3 class="name">Reminder</h3>
+                    
                     <div class="main-container">
                         <div class="form-container">
                            
                             <form class="form" action="{{ url_for('addReminder') }}" method="POST">
                                 <input type="text" name="descrp" id="descrp" placeholder="Description" required />
                                 <input type="number" name="wlevel" id="wlevel" placeholder="Water Level" required />
-                                <button type="submit" class="btn btn-success" id="btnSave">Save</button>
+                                <button type="submit" class="btn btn-success" id="btnSave">Add</button>
 
                             </form>
                         </div>
@@ -98,7 +113,7 @@
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4 item">
-                    <h3 class="name">Water Level - {{ result }} Lt</h3>
+                    <h3 class="name">Water Level</h3>
                     <div id="chartdiv"></div>
                     <button class= "btn btn-primary" onClick="window.location.href=window.location.href">Refresh</button>
                     <a>Last Reading @ - {{ timeresult }}</a>
@@ -140,8 +155,9 @@
     <!--Water meter-->
     <script>
         var reading = {{ result }};
-        var vone = (reading/25000)*100;
-        var vtwo = 100 - vone;
+        reading = ((reading/100)/30)*100
+        var vOne = 100-reading;
+        var vTwo = reading;
         am4core.ready(function () {
 
         // Themes begin
@@ -156,8 +172,8 @@
         // Add data
         chart.data = [{
             "category": "Water Tank",
-            "value1": vone,
-            "value2": vtwo
+            "value1": vOne,
+            "value2": vTwo
             }];
 
         // Create axes
