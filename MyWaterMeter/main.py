@@ -44,7 +44,28 @@ def index():
     rem = curRem.fetchall()
     curRem.close()
     
-    print(rem)
+    curCheck = mysql.get_db().cursor()
+    curCheck.execute("SELECT WaterLevel from reminderTbl")
+    amount = curCheck.execute("SELECT WaterLevel from reminderTbl")
+    check = curCheck.fetchall()
+    curRem.close()
+    
+    count = 0
+    
+    if amount != 0:
+        for x in check:
+            checker = str(check[count])
+            checker = re.sub("\D", "", checker)
+            checker = int(checker)
+            count = count + 1
+            
+            print(checker, " ya", reading)
+            if checker > int(reading):
+                flash("Reminder Triggered! Check Reminders Section.")
+        
+    count = 0
+             
+    print(amount)
      
     curTs = mysql.get_db().cursor()
     curTs.execute("SELECT timestamp FROM waterLevel ORDER BY rID DESC LIMIT 1")
@@ -53,14 +74,8 @@ def index():
     now = datetime.now()
     time = now.strftime("%H:%M:%S") 
     curTs.close() 
-    print (ts)
     tsa = ts[0] 
     
-    #tsa = tsa.strftime('%Y-%m-%d::%H-%M')
-    print(tsa)
-    
-    print(reading)
-        
     return render_template('index.html', result=reading, pHresult=phreading, timeresult=time, amm=rem)
 
 @app.route('/about') 
@@ -90,7 +105,7 @@ def addReminder():
         curRem = mysql.get_db().cursor()
         curRem.execute("INSERT INTO reminderTbl (Description, WaterLevel) VALUES (%s, %s)", (descrip, Water_level))
         connection.commit()
-        flash("Reminder Successfully Added!")
+        #flash("Reminder Successfully Added!")
         curRem.close()
         return redirect(url_for('index'))
 
@@ -101,7 +116,7 @@ def delete(id):
     curD.execute("DELETE FROM reminderTbl WHERE SN=%s", (id,))
     connection.commit()
     curD.close()
-    flash("Reminder Successfully Deleted!")
+    #flash("Reminder Successfully Deleted!")
     
     return redirect(url_for('index'))
     
