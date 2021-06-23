@@ -62,7 +62,7 @@ def phsensor():
                 print("Query failed \n - Address may be invalid, use list command to see available addresses")
             
             x = x+1
-    inReading = float(reading) + 5.14
+    inReading = float(reading)
     reading = str(inReading)
     return reading
 
